@@ -2,7 +2,7 @@
 
 Claude Code의 5시간 사용량 창을 매일 정해진 시각에 시작시키는 Windows 작업 스케줄러용 PowerShell 스크립트.
 
-가로등 점등원(lamplighter)이 정해진 시각에 등을 켜듯, 예약된 시각에 `claude -p 'Hi'` 한 번을 보내 창을 "켠다".
+가로등 점등원(lamplighter)이 정해진 시각에 등을 켜듯, 예약된 시각에 `claude -p 'Hi' --model haiku` 한 번을 보내 창을 "켠다".
 
 ## 왜 필요한가
 
@@ -31,7 +31,7 @@ Lamplighter는 이렇게 맞춘다.
 2. `state.txt`를 읽어 마지막 성공을 확인한다.
 3. 오늘 같은 슬롯을 이미 켰으면 `SKIP … already lit`으로 종료한다.
 4. 마지막 성공 후 4시간 50분이 지나지 않았으면 `SKIP … deferred`로 종료한다. 이전 창이 아직 열려 있어 지금 보내도 새 창이 시작되지 않기 때문이다. 이때는 상태를 갱신하지 않으므로 다음 트리거에서 다시 시도한다.
-5. PATH에서 `claude`를 찾아 `claude -p 'Hi'`를 실행한다.
+5. PATH에서 `claude`를 찾아 `claude -p 'Hi' --model haiku`를 실행한다. 창만 켜면 되므로 가장 작은 모델로 고정해 대화용 기본 모델의 한도와 무관하게 동작한다.
 6. 성공하면 `state.txt`를 갱신하고 응답 앞 100자를 로그에 남긴다. 실패하면 종료 코드와 출력 전체를 로그에 남긴다.
 
 4시간 50분은 5시간에서 10분을 뺀 값이다. 07:00 실행이 부팅 지연 등으로 몇 분 늦어져도 12:01 실행이 막히지 않도록 둔 여유다.
@@ -50,7 +50,7 @@ Lamplighter는 이렇게 맞춘다.
 ## 요구 사항
 
 - Windows 10/11, Windows PowerShell 5.1 (`powershell.exe`)
-- Claude Code CLI가 PATH에 있고 로그인된 상태. 터미널에서 `claude -p 'Hi'`가 성공해야 한다.
+- Claude Code CLI가 PATH에 있고 로그인된 상태. 터미널에서 `claude -p 'Hi' --model haiku`가 성공해야 한다.
 
 ## 설치
 

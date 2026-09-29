@@ -7,6 +7,7 @@ $Dir    = Join-Path $env:LOCALAPPDATA 'Lamplighter'
 $Log    = Join-Path $Dir 'lamp.log'
 $State  = Join-Path $Dir 'state.txt'
 $MinGap = New-TimeSpan -Hours 4 -Minutes 50   # 이 시간이 안 지났으면 새 창이 안 열린다
+$Model  = 'haiku'   # 창만 켜면 되므로 가장 작은 모델로 고정 (기본 모델 한도와 무관하게 동작)
 New-Item -ItemType Directory -Force -Path $Dir | Out-Null
 
 function Write-Log([string]$msg) {
@@ -46,7 +47,7 @@ if (-not $claude) {
     exit 1
 }
 
-$out  = & $claude -p 'Hi' 2>&1 | Out-String -Width 4096
+$out  = & $claude -p 'Hi' --model $Model 2>&1 | Out-String -Width 4096
 $code = $LASTEXITCODE
 
 if ($code -eq 0) {
